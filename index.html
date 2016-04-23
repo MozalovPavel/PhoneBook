@@ -9,24 +9,10 @@
 	<script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 	<script type="text/javascript">
 		var myStorage = localStorage;
-		myStorage.setItem('phonebook',JSON.stringify([
-				{
-					name: "Павел",
-					phone: "89126109175",
-					email: "pavel.mozalov@gmail.com"
-				}
-			]));
 		var app = angular.module("phonebookApp", [])
 		.controller("phonebookCtrl",function($scope){ 
 			$scope.phonebook = JSON.parse(myStorage.getItem('phonebook'));
-			myStorage.setItem('phonebook',JSON.stringify($scope.phonebook));
-			// myStorage.setItem('phonebook',JSON.stringify([
-			// 	{
-			// 		name: "Павел",
-			// 		phone: "89126109175",
-			// 		email: "pavel.mozalov@gmail.com"
-			// 	}
-			// ]));
+
 			$scope.openForm = function(){
 				var form = document.getElementById('formContainer');
 				$(form).css({
@@ -45,7 +31,7 @@
 						email:$scope.email
 					});
 					$scope.name = $scope.phone = $scope.email = '';
-					myStorage.setItem('phonebook',JSON.stringify($scope.phonebook));
+					myStorage['phonebook']=JSON.stringify($scope.phonebook);
 					$scope.closeForm();
 				}
 			}
@@ -105,7 +91,7 @@
 						</tr>		
 					</thead>
 					<tbody>
-						<tr ng-repeat="human in phonebook">
+						<tr ng-repeat="human in phonebook track by $index">
 							<td>{{human.name}}</td>
 							<td>{{human.phone}}</td>
 							<td>{{human.email}}</td>
